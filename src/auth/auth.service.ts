@@ -57,4 +57,15 @@ export class AuthService {
     delete user.hash;
     return user;
   }
+
+  async signToken(userId: number, email: string) {
+    const payload = {
+      sub: userId,
+      email,
+    };
+    return await this.jwt.signAsync(payload, {
+      expiresIn: '15m',
+      secret: '',
+    });
+  }
 }
