@@ -16,8 +16,8 @@
 
 version: '3.8'
 services:
-  postgres:
-    container_name: postgres
+  dev-db:
+    container_name: dev-db
     image: postgres:latest
     restart: always
     environment:
@@ -26,6 +26,6 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - '5434:5432'
 volumes:
   postgres:
