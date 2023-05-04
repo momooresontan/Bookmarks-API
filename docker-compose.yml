@@ -1,14 +1,31 @@
+# version: '3.8'
+# services:
+#   dev-db:
+#     image: postgres:13
+#     container_name: postgres
+#     ports:
+#       - 5434:5432
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: 12345678
+#       POSTGRES_DB: nest
+#     networks:
+#       - freecodecamp
+# networks:
+#   freecodecamp:
+
 version: '3.8'
 services:
-  dev-db:
-    image: postgres:13
-    ports:
-      - 5434:5432
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nest
-    networks:
-      - freecodecamp
-networks:
-  freecodecamp:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+volumes:
+  postgres:
