@@ -5,12 +5,14 @@ import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly jwt: JwtService,
+    private readonly config: ConfigService,
   ) {}
 
   async signup(dto: AuthDto) {
@@ -24,10 +26,8 @@ export class AuthService {
           hash,
         },
       });
-
-      delete user.hash;
       // Return the saved user
-      return user;
+      return this.signToken(user.id, user.email);
     } catch (err) {
       if (err instanceof PrismaClientKnownRequestError) {
         if (err.code === 'P2002') {
@@ -54,18 +54,18 @@ export class AuthService {
     if (!pwMatches) throw new ForbiddenException('Incorrect email or password');
 
     //send back the user
-    delete user.hash;
-    return user;
+    return this.signToken(user.id, user.email);
   }
 
-  async signToken(userId: number, email: string) {
+  signToken(userId: number, email: string): Promise<string> {
     const payload = {
       sub: userId,
       email,
     };
-    return await this.jwt.signAsync(payload, {
+    const secret = this.config.get('JWT_SECRET');
+    return this.jwt.signAsync(payload, {
       expiresIn: '15m',
-      secret: '',
+      secret,
     });
   }
 }
