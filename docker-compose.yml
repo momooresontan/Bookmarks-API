@@ -27,5 +27,16 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - '5434:5432'
+  test-db:
+    container_name: dev-db
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345678
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5435:5432'
 volumes:
   postgres:
