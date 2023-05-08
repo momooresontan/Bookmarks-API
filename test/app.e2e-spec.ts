@@ -24,28 +24,36 @@ describe('App e2e', () => {
 
     prisma = app.get(PrismaService);
     await prisma.cleanDb();
+    pactum.request.setBaseUrl('http://localhost:3333');
   });
   afterAll(() => {
     app.close();
   });
 
   describe('Auth', () => {
+    const dto: AuthDto = {
+      email: 'momo@test.io',
+      password: '123456',
+    };
     describe('Signup', () => {
-      const dto: AuthDto = {
-        email: 'momo@test.io',
-        password: '123456',
-      };
       it('Should signup', () => {
         return pactum
           .spec()
-          .post('http://localhost:3333/auth/signup')
+          .post('/auth/signup')
           .withBody(dto)
-          .expectStatus(201)
-          .inspect();
+          .expectStatus(201);
+        //.inspect();
       });
     });
     describe('Login', () => {
-      it.todo('Should login');
+      it('Should login', () => {
+        return pactum
+          .spec()
+          .post('/auth/login')
+          .withBody(dto)
+          .expectStatus(201);
+        //.inspect();
+      });
     });
   });
   describe('User', () => {
