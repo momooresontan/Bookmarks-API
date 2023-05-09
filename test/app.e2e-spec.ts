@@ -67,6 +67,27 @@ describe('App e2e', () => {
       });
     });
     describe('Login', () => {
+      it('Should throw if email empty', () => {
+        return pactum
+          .spec()
+          .post('/auth/login')
+          .withBody({
+            password: dto.password,
+          })
+          .expectStatus(400);
+      });
+      it('Should throw if password empty', () => {
+        return pactum
+          .spec()
+          .post('/auth/login')
+          .withBody({
+            email: dto.email,
+          })
+          .expectStatus(400);
+      });
+      it('Should throw if no body provided', () => {
+        return pactum.spec().post('/auth/login').expectStatus(400);
+      });
       it('Should login', () => {
         return pactum
           .spec()
