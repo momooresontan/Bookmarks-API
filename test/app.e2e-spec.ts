@@ -93,13 +93,17 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/login')
           .withBody(dto)
-          .expectStatus(201);
-        //.inspect();
+          .expectStatus(201)
+          .stores('userAt', 'access_token');
       });
     });
   });
   describe('User', () => {
-    describe('Get me', () => {});
+    describe('Get me', () => {
+      it('Should get current user', () => {
+        return pactum.spec().get('/users/me').expectStatus(201);
+      });
+    });
     describe('Edit user', () => {});
   });
   describe('Bookmarks', () => {
