@@ -11,5 +11,5 @@ export class BookmarkService {
 
   updateBookmark(userId: number, bookmarkId: number, dto: EditBookmarkDto) {}
 
-  deleteBookmarks(userId: number, bookmarkId: number) {}
+  deleteBookmark(userId: number, bookmarkId: number) {}
 }
