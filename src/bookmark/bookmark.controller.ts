@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
 import {
+  Body,
   Controller,
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -11,6 +13,7 @@ import {
 import { JwtGuard } from '.././auth/guard';
 import { GetUser } from '.././auth/decorator';
 import { BookmarkService } from './bookmark.service';
+import { CreateBookmarkDto, EditBookmarkDto } from './dto';
 
 @UseGuards(JwtGuard)
 @Controller('bookmarks')
@@ -26,17 +29,18 @@ export class BookmarkController {
   ) {}
 
   @Post()
-  createBookmark(@GetUser('id') userId: number) {}
+  createBookmark(@GetUser('id') userId: number, @Body() dto: EditBookmarkDto) {}
 
   @Patch()
   updateBookmark(
     @GetUser('id') userId: number,
     @Param('id') bookmarkId: number,
+    @Body() dto: CreateBookmarkDto,
   ) {}
 
-  @Delete()
+  @Delete(':id')
   deleteBookmarks(
     @GetUser('id') userId: number,
-    @Param('id') bookmarkId: number,
+    @Param('id', ParseIntPipe) bookmarkId: number,
   ) {}
 }
