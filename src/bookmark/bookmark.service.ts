@@ -5,7 +5,13 @@ import { PrismaService } from '../prisma/prisma.service';
 @Injectable()
 export class BookmarkService {
   constructor(private readonly prisma: PrismaService) {}
-  getBookmarks(userId: number) {}
+  getBookmarks(userId: number) {
+    return this.prisma.bookmark.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
 
   getBookmarkById(userId: number, bookmarkId: number) {}
 

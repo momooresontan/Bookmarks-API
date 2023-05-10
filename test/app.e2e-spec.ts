@@ -140,9 +140,22 @@ describe('App e2e', () => {
             Authorization: 'Bearer $S{userAt}',
           })
           .expectStatus(200)
-      })
+          .expectBody([]);
+      });
     });
-    describe('Create bookmark', () => {});
+    describe('Create bookmark', () => {
+      it('Should create a bookmark', () => {
+        return pactum
+          .spec()
+          .post('/bookmarks')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .withBody(dto)
+          .expectStatus(200)
+          .expectBody([]);
+      });
+    });
     describe('Get bookmark by id', () => {});
     describe('Edit bookmark by id', () => {});
     describe('Delete bookmark by id', () => {});
