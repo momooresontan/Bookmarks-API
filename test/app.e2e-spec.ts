@@ -6,7 +6,7 @@ import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { AuthDto } from 'src/auth/dto';
 import { EditUserDto } from 'src/user/dto';
-import { CreateBookmarkDto } from 'src/bookmark/dto';
+import { CreateBookmarkDto, EditBookmarkDto } from 'src/bookmark/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
@@ -185,11 +185,16 @@ describe('App e2e', () => {
       });
     });
     describe('Edit bookmark by id', () => {
+      const dto: EditBookmarkDto = {
+        title: 'NestJs Course for Beginners - Create a REST API',
+        description: 'Learn NestJs by building a CRUD REST API with end-to-end tests using modern web development techniques. NestJs is a rapidly growing node js framework that helps build scalable and maintainable backend applications. In this course, we build a bookmarks API from scratch using nestJs, docker, postgres, passport js, prisma, pactum and dotenv.'
+      }
       it('Should edit bookmark', () => {
         return pactum
           .spec()
           .patch('/bookmarks/{id}')
           .withPathParams('id', '$S{bookmarkId}')
+          .withBody
           .withHeaders({
             Authorization: 'Bearer $S{userAt}',
           })
