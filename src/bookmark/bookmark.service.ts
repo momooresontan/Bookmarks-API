@@ -67,5 +67,11 @@ export class BookmarkService {
     //check if user owns the bookmark
     if (!bookmark || bookmark.userId !== userId)
       throw new ForbiddenException('Access to resource denied');
+
+    await this.prisma.bookmark.delete({
+      where: {
+        id: bookmarkId,
+      },
+    });
   }
 }

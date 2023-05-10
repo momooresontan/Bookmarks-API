@@ -213,6 +213,18 @@ describe('App e2e', () => {
           })
           .expectStatus(204);
       });
+
+      it('Should get empty bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .expectStatus(200)
+          .expectBodyContains('$S{bookmarkId}');
+      });
     });
   });
 });
